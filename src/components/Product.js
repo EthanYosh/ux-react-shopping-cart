@@ -1,11 +1,22 @@
 import React from "react";
 import Quantity from "./Quantity";
 
-function Product(props) {
+
+
+
+
+
+
+function Product(currentNumber) {
+  
+  var changeQuantityUp = () => currentNumber.onIncrementQuantity(currentNumber.item.id);
+  var changeQuantityDown = () => currentNumber.onDecrementQuantity(currentNumber.item.id);
+
+
   return (
     <span>
-      Item Name - Item Price -
-      <Quantity your props here />
+      {currentNumber.item.name} - {currentNumber.item.price} -
+      <Quantity quantity={currentNumber.item.quantity} onIncrementQuantity={changeQuantityUp} onDecrementQuantity={changeQuantityDown}/>
     </span>
   );
 }

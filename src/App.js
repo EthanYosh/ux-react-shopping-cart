@@ -31,7 +31,7 @@ class App extends Component {
 
   handleIncrementQuantity = (id) => {
     this.setState((state) => {
-      const newList = state.cart.map((item) => {
+      const cartAlias = state.cart.map((item) => {
         if (item.id === id) {
           return Object.assign({}, item, { quantity: item.quantity + 1 });
         } else {
@@ -40,15 +40,30 @@ class App extends Component {
       });
 
       return {
-        cart: newList,
+        cart: cartAlias,
       };
     });
   };
 
+
   handleDecrementQuantity = (id) => {
-    // Your Code Here!
-    // Do the same as handleIncrementQuantity, but decrement it instead
-    // Remember that you should not decrement below zero!
+    this.setState((state) => {
+
+
+      const cartAlias = state.cart.map((item) => {
+        if (item.quantity > 0 && item.id === id) {
+          return { ...item, quantity: item.quantity - 1 };
+        } 
+
+        else {
+          return item;
+        }
+      });
+
+      return {
+        cart: cartAlias,
+      };
+    });
   };
 
   handleCheckout = () => {
@@ -67,7 +82,7 @@ class App extends Component {
         <ul className="list">
           {this.state.cart.map((item) => (
             <li key={item.id}>
-              <Product your props here />
+              <Product onDecrementQuantity={this.handleDecrementQuantity} item={item} onIncrementQuantity={this.handleIncrementQuantity}/>
             </li>
           ))}
         </ul>
@@ -77,10 +92,7 @@ class App extends Component {
               type="checkbox"
               defaultChecked={this.stateIncisOnMailingList}
               onChange={(event) =>
-                // Your code here!
-                // Use setState to update the flag in state for the checkbox
-                // Hint: use event.target.checked
-                this.setState()
+                this.setState({ isOnMailingList: event.target.checked }) //user must check the box in order to signup
               }
             />
             Sign me up for the mailing list!
